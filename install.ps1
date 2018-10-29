@@ -72,21 +72,27 @@ cscript.exe "C:\Program Files (x86)\Microsoft Office\Office16\ospp.vbs" /rearm
 $MB=Get-CimInstance Win32_BaseBoard | Select-Object  Product
 if($MB.product -match "NUC")
 {
-    Write-Host "nuc vga install"
+    #NUC VGA driver
+    Write-Host "NUC VGA-Treiber installieren"
     $nucvga="\\nas00.gfu.net\disk2\Treiber\Intel-NUC-Kit-NUC7i5DNKE_Win10-64_Drivers.20180803\nuc7i7dn-win10-64bit-inf\GFX_WIN64_24.20.100.6194\Graphics\igdlh64.inf"
     Pnputil.exe /add-driver $nucvga /install
+} elseif ($MB.product -match "B85M")
+{
+    #H1 VGA driver
+    Write-Host "NUC VGA-Treiber installieren"
+    $h1vga="\\nas00.gfu.net\disk2\Treiber\_Schulung_PC_H1\mb_driver_vga_intel_64_8series\Graphics\igdlh64.inf"
+    Pnputil.exe /add-driver $h1vga /install
 } else
 {
-    # H6 VGA Driver
+     # H6 VGA Driver
     $h6vga="\\nas00.gfu.net\disk2\Treiber\_Schulung_PC_H6\NVIDIA Grafikkarte\64bit\win7_winvista\NV_DISP.inf"
     Pnputil.exe /add-driver $h6vga /install
     $h6vga1="\\nas00.gfu.net\disk2\Treiber\_Schulung_PC_H6\NVIDIA Grafikkarte\64bit\win7_winvista\NVDD.inf"
     Pnputil.exe /add-driver $h6vga1 /install
-
-    #H1 VGA driver
-    $h1vga="\\nas00.gfu.net\disk2\Treiber\_Schulung_PC_H1\mb_driver_vga_intel_64_8series\Graphics\igdlh64.inf"
-    Pnputil.exe /add-driver $h1vga /install
 }
+
+
+
  #set computer icon on desktop
      #Registry key path
     $path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel"
